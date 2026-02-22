@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FastAIWorkspace — Features</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:#f8f9fb;color:#4a4a5a;line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+:root{
+  --accent-fuchsia:#86198F;
+  --accent-fuchsia-light:#C026D3;
+  --accent-violet:#6366f1;
+  --accent-cyan:#0088aa;
+  --accent-orange:#ea580c;
+  --accent-green:#059669;
+  --accent-rose:#dc2626;
+  --surface:#ffffff;
+  --surface-raised:#f1f3f7;
+  --surface-hover:#e8eaef;
+  --border:#e0e2e8;
+  --border-light:#ccd0d8;
+  --text-primary:#111827;
+  --text-secondary:#4b5563;
+  --text-muted:#9ca3af;
+  --mono:'Space Mono',monospace;
+  --display:'Playfair Display',serif;
+  --body:'DM Sans',sans-serif;
+  --max-w:1200px;
+}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 32px}
+.mono{font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;font-size:11px}
+.gradient-text{background:linear-gradient(135deg,var(--accent-fuchsia),var(--accent-fuchsia-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gradient-text-eco{background:linear-gradient(135deg,var(--accent-cyan),var(--accent-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.3}
+
+/* ===== TOPBAR ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.topbar-logo{display:flex;align-items:center;gap:10px}
+.topbar-logo svg{width:28px;height:28px}
+.topbar-logo span{font-weight:700;font-size:17px;color:var(--text-primary);letter-spacing:-.3px}
+.topbar-logo .foundry{font-weight:400;color:var(--text-muted);font-size:12px;margin-left:2px}
+.topbar-nav{display:flex;gap:32px;align-items:center}
+.topbar-nav a{font-size:13px;color:var(--text-secondary);transition:color .2s}
+.topbar-nav a:hover{color:var(--text-primary)}
+.topbar-cta{font-size:12px;font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;
+  padding:8px 20px;border:1px solid var(--accent-fuchsia);color:var(--accent-fuchsia);border-radius:6px;transition:all .2s}
+.topbar-cta:hover{background:var(--accent-fuchsia);color:#fff}
+.topbar-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px;color:var(--text-primary)}
+.topbar-toggle svg{width:24px;height:24px}
+
+/* ===== HERO ===== */
+.hero{padding:180px 0 120px;position:relative;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:800px;height:800px;background:radial-gradient(circle,rgba(134,25,143,.06) 0%,rgba(192,38,211,.03) 40%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px 6px 8px;
+  background:var(--surface);border:1px solid var(--border);border-radius:100px;margin-bottom:32px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-fuchsia-light);box-shadow:0 0 8px var(--accent-fuchsia-light);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-badge span{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text-secondary);text-transform:uppercase}
+.hero h1{font-family:var(--display);font-size:clamp(42px,6vw,72px);font-weight:800;color:var(--text-primary);line-height:1.1;margin-bottom:24px;letter-spacing:-1px}
+.hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--accent-fuchsia),var(--accent-fuchsia-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--text-secondary);max-width:660px;margin:0 auto 48px;line-height:1.8;font-weight:300}
+.hero-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat .val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--text-primary)}
+.hero-stat .label{font-size:12px;color:var(--text-muted);margin-top:4px}
+
+/* ===== SECTIONS ===== */
+section{padding:100px 0;position:relative}
+section::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.sec-label{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:24px;height:1px}
+.sec-label.fuchsia{color:var(--accent-fuchsia)}.sec-label.fuchsia::before{background:var(--accent-fuchsia)}
+.sec-label.cyan{color:var(--accent-cyan)}.sec-label.cyan::before{background:var(--accent-cyan)}
+.sec-label.violet{color:var(--accent-violet)}.sec-label.violet::before{background:var(--accent-violet)}
+.sec-label.orange{color:var(--accent-orange)}.sec-label.orange::before{background:var(--accent-orange)}
+.sec-label.green{color:var(--accent-green)}.sec-label.green::before{background:var(--accent-green)}
+.sec-label.rose{color:var(--accent-rose)}.sec-label.rose::before{background:var(--accent-rose)}
+.sec-title{font-family:var(--display);font-size:clamp(28px,4vw,42px);font-weight:800;color:var(--text-primary);line-height:1.2;margin-bottom:16px;letter-spacing:-.5px}
+.sec-desc{font-size:16px;color:var(--text-secondary);max-width:560px;line-height:1.8;margin-bottom:48px;font-weight:300}
+
+/* ===== CARDS ===== */
+.card-grid{display:grid;gap:16px}
+.card-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.card-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.card-grid.cols-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.card-grid.cols-2,.card-grid.cols-3,.card-grid.cols-4{grid-template-columns:1fr}}
+.fcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;overflow:hidden;transition:border-color .3s,transform .2s,box-shadow .3s;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.fcard:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.fcard-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px}
+.fcard-icon.fuchsia{background:rgba(134,25,143,.06);border:1px solid rgba(134,25,143,.12)}
+.fcard-icon.cyan{background:rgba(0,136,170,.06);border:1px solid rgba(0,136,170,.12)}
+.fcard-icon.violet{background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.12)}
+.fcard-icon.orange{background:rgba(234,88,12,.06);border:1px solid rgba(234,88,12,.12)}
+.fcard-icon.green{background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.12)}
+.fcard-icon.rose{background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.12)}
+.fcard h3{font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:8px}
+.fcard p{font-size:13.5px;color:var(--text-secondary);line-height:1.7}
+.fcard .tag{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-top:16px;display:inline-block}
+
+/* ===== SPLIT ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.split.reverse{direction:rtl}.split.reverse>*{direction:ltr}
+@media(max-width:900px){.split{grid-template-columns:1fr;gap:40px}.split.reverse{direction:ltr}}
+
+/* ===== FEATURES LIST ===== */
+.features-list{list-style:none;margin-top:28px}
+.features-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:12px}
+.features-list li:last-child{border-bottom:none}
+.features-list .check{width:18px;height:18px;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.check.fuchsia{background:rgba(134,25,143,.08);color:var(--accent-fuchsia);border:1px solid rgba(134,25,143,.15)}
+.check.violet{background:rgba(99,102,241,.08);color:var(--accent-violet);border:1px solid rgba(99,102,241,.15)}
+.check.green{background:rgba(5,150,105,.08);color:var(--accent-green);border:1px solid rgba(5,150,105,.15)}
+.check.orange{background:rgba(234,88,12,.08);color:var(--accent-orange);border:1px solid rgba(234,88,12,.15)}
+.check.cyan{background:rgba(0,136,170,.08);color:var(--accent-cyan);border:1px solid rgba(0,136,170,.15)}
+
+/* ===== METRICS BAR ===== */
+.metrics-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin:48px 0}
+.metric{background:var(--surface);padding:32px;text-align:center}
+.metric .val{font-family:var(--display);font-size:32px;font-weight:800;color:var(--text-primary);margin-bottom:4px}
+.metric .lbl{font-size:12px;color:var(--text-muted)}
+@media(max-width:700px){.metrics-bar{grid-template-columns:repeat(2,1fr)}}
+
+/* ===== ARCHITECTURE DIAGRAM ===== */
+.arch-diagram{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:48px;margin-top:48px;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.arch-diagram::before{content:'';position:absolute;top:0;right:0;width:300px;height:300px;background:radial-gradient(circle,rgba(134,25,143,.04),transparent);pointer-events:none}
+.arch-layers{display:flex;flex-direction:column;gap:12px}
+.arch-layer{display:flex;align-items:stretch;gap:12px}
+.arch-block{flex:1;padding:20px 24px;border-radius:12px;border:1px solid;position:relative}
+.arch-block .block-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.arch-block .block-title{font-size:14px;font-weight:700;color:var(--text-primary)}
+.arch-block .block-items{font-size:11.5px;color:var(--text-secondary);margin-top:6px;line-height:1.6}
+.arch-block.fuchsia{border-color:rgba(134,25,143,.2);background:rgba(134,25,143,.03)}.arch-block.fuchsia .block-label{color:var(--accent-fuchsia)}
+.arch-block.cyan{border-color:rgba(0,136,170,.2);background:rgba(0,136,170,.03)}.arch-block.cyan .block-label{color:var(--accent-cyan)}
+.arch-block.violet{border-color:rgba(99,102,241,.2);background:rgba(99,102,241,.03)}.arch-block.violet .block-label{color:var(--accent-violet)}
+.arch-block.orange{border-color:rgba(234,88,12,.2);background:rgba(234,88,12,.03)}.arch-block.orange .block-label{color:var(--accent-orange)}
+.arch-block.green{border-color:rgba(5,150,105,.2);background:rgba(5,150,105,.03)}.arch-block.green .block-label{color:var(--accent-green)}
+.arch-block.neutral{border-color:var(--border);background:var(--surface-raised)}.arch-block.neutral .block-label{color:var(--text-muted)}
+.arch-connector{text-align:center;padding:8px 0;color:var(--text-muted);font-size:18px;letter-spacing:4px}
+
+/* ===== WORKFLOW VISUAL ===== */
+.hero-feature-visual{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2px;overflow:hidden;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.hero-feature-visual::before{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(134,25,143,.06),transparent,rgba(192,38,211,.04));z-index:1;pointer-events:none}
+.visual-inner{background:var(--surface-raised);border-radius:18px;padding:32px;min-height:320px;display:flex;align-items:center;justify-content:center;position:relative}
+
+/* ===== CHAT DEMO ===== */
+.chat-demo{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.chat-header{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--surface-raised)}
+.chat-header .agent-dot{width:10px;height:10px;border-radius:50%;background:var(--accent-fuchsia-light);box-shadow:0 0 6px rgba(192,38,211,.4)}
+.chat-header h4{font-size:13px;font-weight:600;color:var(--text-primary)}
+.chat-header .chat-meta{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text-muted)}
+.chat-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.chat-msg{max-width:80%;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.7}
+.chat-msg.user{background:rgba(134,25,143,.08);border:1px solid rgba(134,25,143,.12);align-self:flex-end;color:var(--text-primary)}
+.chat-msg.agent{background:var(--surface-raised);border:1px solid var(--border);align-self:flex-start;color:var(--text-secondary)}
+.chat-msg .tool-tag{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;letter-spacing:1px;background:rgba(234,88,12,.08);color:var(--accent-orange);border:1px solid rgba(234,88,12,.15);padding:2px 8px;border-radius:4px;margin-top:8px}
+.chat-input{border-top:1px solid var(--border);padding:12px 24px;display:flex;gap:12px;align-items:center;background:var(--surface)}
+.chat-input-box{flex:1;padding:10px 14px;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text-muted)}
+.chat-send{width:36px;height:36px;border-radius:8px;background:var(--accent-fuchsia);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;border:none;cursor:default}
+
+/* ===== APPROVAL DEMO ===== */
+.approval-demo{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.approval-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.approval-item:last-child{border-bottom:none}
+.approval-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.approval-dot.pending{background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.4)}
+.approval-dot.approved{background:var(--accent-green)}
+.approval-dot.rejected{background:var(--accent-rose)}
+.approval-info{flex:1}
+.approval-info .tool{font-size:13px;font-weight:600;color:var(--text-primary)}
+.approval-info .context{font-size:11px;color:var(--text-muted);margin-top:2px}
+.approval-actions{display:flex;gap:6px}
+.approval-btn{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:5px 12px;border-radius:6px;border:1px solid;cursor:default}
+.approval-btn.approve{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.2);color:var(--accent-green)}
+.approval-btn.reject{background:rgba(220,38,38,.08);border-color:rgba(220,38,38,.2);color:var(--accent-rose)}
+.approval-btn.modify{background:rgba(234,88,12,.08);border-color:rgba(234,88,12,.2);color:var(--accent-orange)}
+.approval-timer{width:100%;height:3px;border-radius:2px;background:var(--surface-raised);margin-top:8px;overflow:hidden}
+.approval-timer .fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#f97316)}
+
+/* ===== LIFECYCLE ===== */
+.lifecycle{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;margin:32px 0}
+.lc-step{padding:10px 20px;border-radius:8px;font-size:12px;font-weight:600;text-align:center;color:var(--text-primary);border:1px solid;min-width:90px}
+.lc-arrow{color:var(--text-muted);font-size:16px}
+.lc-step.s1{background:rgba(134,25,143,.06);border-color:rgba(134,25,143,.15)}
+.lc-step.s2{background:rgba(99,102,241,.06);border-color:rgba(99,102,241,.15)}
+.lc-step.s3{background:rgba(0,136,170,.06);border-color:rgba(0,136,170,.15)}
+.lc-step.s4{background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.15)}
+.lc-step.s5{background:rgba(234,88,12,.06);border-color:rgba(234,88,12,.15)}
+
+/* ===== MISC ===== */
+.sec-alt{background:linear-gradient(180deg,var(--surface-raised) 0%,#f8f9fb 100%)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp .6s ease-out both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+
+/* ===== FOOTER ===== */
+.footer{padding:64px 0;text-align:center;background:var(--surface)}
+.footer-brand{font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-primary);margin-bottom:8px}
+.footer-sub{font-size:13px;color:var(--text-muted);margin-bottom:32px}
+.footer-links{display:flex;justify-content:center;gap:32px;margin-bottom:24px}
+.footer-links a{font-size:13px;color:var(--text-secondary);transition:color .2s}
+.footer-links a:hover{color:var(--text-primary)}
+.footer-copy{font-size:11px;color:var(--text-muted)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .container{padding:0 20px}
+  .topbar{padding:0 20px}
+  .topbar-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--surface);
+    border-bottom:1px solid var(--border);flex-direction:column;padding:20px 24px;gap:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .topbar-nav.open{display:flex}
+  .topbar-toggle{display:block}
+  .topbar-cta{align-self:flex-start}
+  .hero{padding:120px 0 80px}
+  .hero-sub{font-size:16px;margin-bottom:36px}
+  .hero-stats{gap:24px}
+  .hero-stat .val{font-size:22px}
+  section{padding:64px 0}
+  .sec-title{font-size:28px}
+  .sec-desc{font-size:15px;margin-bottom:32px}
+  .arch-diagram{padding:24px;margin-top:32px}
+  .arch-layer{flex-direction:column;gap:10px}
+  .metrics-bar{grid-template-columns:repeat(2,1fr)}
+  .metric{padding:20px 16px}
+  .metric .val{font-size:24px}
+  .fcard{padding:24px}
+  .chat-body{padding:14px 16px}
+  .approval-actions{flex-direction:column}
+}
+@media(max-width:600px){
+  .container{padding:0 16px}
+  .topbar{padding:0 16px}
+  .hero{padding:100px 0 60px}
+  .hero h1{font-size:32px;letter-spacing:-.5px}
+  .hero-sub{font-size:15px;line-height:1.7;margin-bottom:28px}
+  .hero-stats{flex-direction:column;gap:16px}
+  .hero-stat .val{font-size:20px}
+  section{padding:48px 0}
+  .sec-title{font-size:24px}
+  .sec-desc{font-size:14px;margin-bottom:24px}
+  .card-grid{gap:12px}
+  .fcard{padding:20px;border-radius:12px}
+  .fcard h3{font-size:15px}
+  .fcard p{font-size:13px}
+  .fcard-icon{width:38px;height:38px;font-size:17px;margin-bottom:14px}
+  .features-list li{font-size:13px;gap:8px;padding:8px 0}
+  .lifecycle{flex-wrap:wrap;gap:6px}
+  .lc-step{flex:1;min-width:70px;padding:8px 10px;font-size:10px}
+  .lc-arrow{display:none}
+  .metrics-bar{grid-template-columns:1fr 1fr;border-radius:12px}
+  .metric{padding:16px 12px}
+  .metric .val{font-size:20px}
+  .topbar-logo span{font-size:15px}
+  .topbar-logo .foundry{font-size:10px}
+  .topbar-inner{height:56px}
+  .footer-links{flex-wrap:wrap;gap:16px 24px}
+  .footer-brand{font-size:20px}
+  .card-grid.cols-4{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-logo">
+      <svg width="28" height="28" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" rx="28" fill="#f5eaf8"/>
+        <rect x="12" y="12" width="42" height="42" rx="13" fill="#fff" stroke="#86198F" stroke-width="5" stroke-opacity=".55"/>
+        <rect x="66" y="12" width="42" height="42" rx="13" fill="#fff" stroke="#86198F" stroke-width="5" stroke-opacity=".55"/>
+        <rect x="12" y="66" width="42" height="42" rx="13" fill="#fff" stroke="#86198F" stroke-width="5" stroke-opacity=".55"/>
+        <rect x="66" y="66" width="42" height="42" rx="13" fill="#f3e0f6" stroke="#86198F" stroke-width="5.5"/>
+        <path d="M80 76L80 98L98 87Z" fill="#86198F" opacity=".85"/>
+        <circle cx="60" cy="60" r="5.5" fill="#86198F" opacity=".9"/>
+      </svg>
+      <span>FastAIWorkspace<span class="foundry"> by FastAIFoundry</span></span>
+    </div>
+    <button class="topbar-toggle" onclick="document.querySelector('.topbar-nav').classList.toggle('open')" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <div class="topbar-nav">
+      <a href="#platform">Platform</a>
+      <a href="#agents">Agents</a>
+      <a href="#chat">Chat</a>
+      <a href="#hitl">Approvals</a>
+      <a href="#teams">Teams</a>
+      <a href="#admin">Admin</a>
+      <a href="#" class="topbar-cta">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge animate"><div class="dot"></div><span>Now in Active Development</span></div>
+    <h1 class="animate d1">Your AI Agents,<br><em>One Workspace</em></h1>
+    <p class="hero-sub animate d2">The thin-client agent portal for business teams. Connect to FastAIAgent, give non-technical users a beautiful interface to consume AI agents — with approvals, team collaboration, and full audit trails built in.</p>
+    <div class="hero-stats animate d3">
+      <div class="hero-stat"><div class="val">Multi-Agent</div><div class="label">One Portal for All AI</div></div>
+      <div class="hero-stat"><div class="val">Team-Based</div><div class="label">Collaboration Built In</div></div>
+      <div class="hero-stat"><div class="val">Approvals</div><div class="label">Humans Stay in Control</div></div>
+      <div class="hero-stat"><div class="val">Self-Hosted</div><div class="label">Your Data, Your Servers</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PLATFORM ARCHITECTURE ===== -->
+<section id="platform">
+  <div class="container">
+    <div class="sec-label fuchsia">Platform Architecture</div>
+    <div class="sec-title">Thin Client, Full Power.</div>
+    <div class="sec-desc">FastAIWorkspace is the user-facing orchestration layer. All AI logic lives in FastAIAgent — Workspace handles teams, sessions, approvals, and beautiful UX for the people who actually use your agents.</div>
+    <div class="arch-diagram">
+      <div class="arch-layers">
+        <div class="arch-layer">
+          <div class="arch-block fuchsia" style="flex:2"><div class="block-label">User Layer</div><div class="block-title">Agent Portal &amp; Chat Interface</div><div class="block-items">SSE streaming · Markdown rendering · Tool call cards · Suggested prompts · Session management · Message feedback</div></div>
+          <div class="arch-block violet"><div class="block-label">Governance</div><div class="block-title">Approvals &amp; HITL</div><div class="block-items">Approval queue · Approve/Reject/Modify · Timer expiry · Human input prompts</div></div>
+        </div>
+        <div class="arch-connector">▾ ▾ ▾</div>
+        <div class="arch-layer">
+          <div class="arch-block cyan"><div class="block-label">Collaboration</div><div class="block-title">Teams &amp; Access</div><div class="block-items">RBAC · Team assignments · Session sharing · Invitations</div></div>
+          <div class="arch-block orange"><div class="block-label">Admin</div><div class="block-title">Dashboard &amp; Analytics</div><div class="block-items">Usage charts · Token tracking · Cost analytics · Activity logs</div></div>
+          <div class="arch-block green"><div class="block-label">Customization</div><div class="block-title">Branding &amp; Widget</div><div class="block-items">Custom logo · Color scheme · Embeddable widget · Custom domain</div></div>
+        </div>
+        <div class="arch-connector">▾ ▾ ▾</div>
+        <div class="arch-layer">
+          <div class="arch-block neutral" style="flex:1"><div class="block-label">Security</div><div class="block-title">Encryption &amp; Access Control</div><div class="block-items">JWT tokens · API key encryption · CORS · Role-based filtering</div></div>
+          <div class="arch-block neutral" style="flex:1"><div class="block-label">Real-Time</div><div class="block-title">Streaming &amp; Notifications</div><div class="block-items">SSE agent streaming · WebSocket push · Live approval timers · Polling fallback</div></div>
+          <div class="arch-block neutral" style="flex:1"><div class="block-label">Infrastructure</div><div class="block-title">Self-Hosted &amp; Multi-Tenant</div><div class="block-items">Docker deployment · Workspace isolation · Custom domain · One-command setup</div></div>
+        </div>
+        <div class="arch-connector">▾ ▾ ▾</div>
+        <div class="arch-layer">
+          <div class="arch-block cyan" style="flex:1"><div class="block-label">Integration</div><div class="block-title">FastAIAgent Backend</div><div class="block-items">Agent sync · SSE streaming · Tool execution · Webhook callbacks · Multiple project connections</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AGENT INTEGRATION ===== -->
+<section id="agents" class="sec-alt">
+  <div class="container">
+    <div class="split">
+      <div>
+        <div class="sec-label fuchsia">Agent Integration</div>
+        <div class="sec-title">Connect, Sync,<br>and Launch.</div>
+        <div class="sec-desc" style="margin-bottom:0">Connect to multiple FastAIAgent instances simultaneously. Agents and chains auto-sync every 5 minutes — ready for your business users to consume instantly.</div>
+        <ul class="features-list">
+          <li><span class="check fuchsia">✓</span><span><strong style="color:var(--text-primary)">Agent Catalog</strong> — Automatic sync with full metadata, knowledge base summaries, document counts and tags</span></li>
+          <li><span class="check fuchsia">✓</span><span><strong style="color:var(--text-primary)">Multi-Project</strong> — Connect to multiple FastAIAgent instances with per-project API keys and health testing</span></li>
+          <li><span class="check fuchsia">✓</span><span><strong style="color:var(--text-primary)">Custom Display</strong> — Custom names, 16 Lucide icon options, color coding, categories, and featured agent banners</span></li>
+          <li><span class="check fuchsia">✓</span><span><strong style="color:var(--text-primary)">Dual Execution</strong> — Agents via SSE streaming, Chains via synchronous calls — both fully supported</span></li>
+          <li><span class="check fuchsia">✓</span><span><strong style="color:var(--text-primary)">Tool Call Tracking</strong> — Tool start, end, and pending events with full input/output JSON for audit</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fcard" style="border-color:rgba(134,25,143,.15);padding:0;overflow:hidden">
+          <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface-raised)">
+            <div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px">🤖</span><span style="font-size:14px;font-weight:700;color:var(--text-primary)">Agent Catalog</span></div>
+            <span class="mono" style="color:var(--accent-fuchsia);font-size:9px">● Synced</span>
+          </div>
+          <div style="padding:20px 24px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:20px">
+              <div><div style="font-size:22px;font-weight:800;color:var(--text-primary)">12</div><div style="font-size:10px;color:var(--text-muted);font-family:var(--mono)">Agents</div></div>
+              <div><div style="font-size:22px;font-weight:800;color:var(--text-primary)">5</div><div style="font-size:10px;color:var(--text-muted);font-family:var(--mono)">Chains</div></div>
+              <div><div style="font-size:22px;font-weight:800;color:var(--text-primary)">3</div><div style="font-size:10px;color:var(--text-muted);font-family:var(--mono)">Projects</div></div>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;font-family:var(--mono);letter-spacing:1px">AVAILABLE AGENTS</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface-raised);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:14px">⚡</span><span style="font-size:12px;font-weight:600;color:var(--text-primary)">Lead Qualifier</span>
+                <span style="font-family:var(--mono);font-size:9px;color:var(--accent-green);margin-left:auto">● Active</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface-raised);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:14px">🧠</span><span style="font-size:12px;font-weight:600;color:var(--text-primary)">Support Triage</span>
+                <span style="font-family:var(--mono);font-size:9px;color:var(--accent-green);margin-left:auto">● Active</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface-raised);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:14px">📊</span><span style="font-size:12px;font-weight:600;color:var(--text-primary)">Data Analyst</span>
+                <span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:auto">○ Draft</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHAT & STREAMING ===== -->
+<section id="chat">
+  <div class="container">
+    <div class="split reverse">
+      <div>
+        <div class="sec-label violet">Chat &amp; Streaming</div>
+        <div class="sec-title">Real-Time Agent<br>Conversations.</div>
+        <div class="sec-desc" style="margin-bottom:0">Token-by-token SSE streaming, markdown rendering, tool call visualization, message feedback — a conversational interface purpose-built for AI agent interactions.</div>
+        <ul class="features-list">
+          <li><span class="check violet">✓</span><span><strong style="color:var(--text-primary)">SSE Streaming</strong> — Token-by-token display with stream pause/resume during approval workflows</span></li>
+          <li><span class="check violet">✓</span><span><strong style="color:var(--text-primary)">Rich Rendering</strong> — Markdown, syntax-highlighted code blocks, tables, and sanitized links</span></li>
+          <li><span class="check violet">✓</span><span><strong style="color:var(--text-primary)">Virtualized Messages</strong> — TanStack Virtual for smooth performance with large message histories</span></li>
+          <li><span class="check violet">✓</span><span><strong style="color:var(--text-primary)">Message Feedback</strong> — Thumbs up/down with optional comments, exportable for analytics</span></li>
+          <li><span class="check violet">✓</span><span><strong style="color:var(--text-primary)">Cost Tracking</strong> — Token count, cost, and execution duration tracked per message</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="chat-demo">
+          <div class="chat-header">
+            <div class="agent-dot"></div>
+            <h4>Lead Qualifier Agent</h4>
+            <div class="chat-meta">Session #247</div>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg user">Can you qualify the lead from Acme Corp that came in this morning?</div>
+            <div class="chat-msg agent">
+              I'll pull the lead data and run the qualification analysis for you.
+              <div class="tool-tag">⚙ fetch_crm_data — running</div>
+            </div>
+            <div class="chat-msg agent">Based on the CRM data, Acme Corp scores <strong>87/100</strong>. They match your ICP on company size, industry, and budget range. I recommend routing to the Sales team immediately.</div>
+            <div class="chat-msg user">Great, please route it.</div>
+          </div>
+          <div class="chat-input">
+            <div class="chat-input-box">Type a message…</div>
+            <div class="chat-send">↑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HITL & APPROVALS ===== -->
+<section id="hitl" class="sec-alt">
+  <div class="container">
+    <div class="split">
+      <div>
+        <div class="sec-label orange">Human-in-the-Loop</div>
+        <div class="sec-title">Approve Before<br>Agents Act.</div>
+        <div class="sec-desc" style="margin-bottom:0">Keep humans in control. Approval workflows pause agent execution, let reviewers inspect tool calls, and support approve, reject, or modify actions — all with countdown timers and full audit trails.</div>
+        <ul class="features-list">
+          <li><span class="check orange">✓</span><span><strong style="color:var(--text-primary)">Approval Queue</strong> — Central page showing all pending requests with tool name, parameters, and policy context</span></li>
+          <li><span class="check orange">✓</span><span><strong style="color:var(--text-primary)">Three Actions</strong> — Approve, Reject, or Modify (edit tool input before approving) with reviewer comments</span></li>
+          <li><span class="check orange">✓</span><span><strong style="color:var(--text-primary)">Expiration Timers</strong> — Countdown bar visualization with automatic expiry if no action taken</span></li>
+          <li><span class="check orange">✓</span><span><strong style="color:var(--text-primary)">Stream Control</strong> — Agent streaming pauses during approval, resumes automatically after decision</span></li>
+          <li><span class="check orange">✓</span><span><strong style="color:var(--text-primary)">Human Input</strong> — Agents can request free-form human input mid-conversation with state persistence</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="approval-demo">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--accent-orange);margin-bottom:16px">APPROVAL QUEUE</div>
+          <div class="approval-item">
+            <div class="approval-dot pending"></div>
+            <div class="approval-info">
+              <div class="tool">send_email_campaign</div>
+              <div class="context">Sales Outreach Agent · Policy: require_email_approval</div>
+              <div class="approval-timer" style="margin-top:8px"><div class="fill" style="width:68%"></div></div>
+            </div>
+            <div class="approval-actions">
+              <div class="approval-btn approve">Approve</div>
+              <div class="approval-btn modify">Modify</div>
+              <div class="approval-btn reject">Reject</div>
+            </div>
+          </div>
+          <div class="approval-item">
+            <div class="approval-dot pending"></div>
+            <div class="approval-info">
+              <div class="tool">update_crm_record</div>
+              <div class="context">Lead Qualifier · Policy: crm_write_approval</div>
+              <div class="approval-timer" style="margin-top:8px"><div class="fill" style="width:35%"></div></div>
+            </div>
+            <div class="approval-actions">
+              <div class="approval-btn approve">Approve</div>
+              <div class="approval-btn modify">Modify</div>
+              <div class="approval-btn reject">Reject</div>
+            </div>
+          </div>
+          <div class="approval-item">
+            <div class="approval-dot approved"></div>
+            <div class="approval-info">
+              <div class="tool">query_database</div>
+              <div class="context">Data Analyst · Approved by Sarah K. · 2 min ago</div>
+            </div>
+            <div class="approval-actions">
+              <span style="font-family:var(--mono);font-size:9px;color:var(--accent-green)">✓ APPROVED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SESSIONS & COLLABORATION ===== -->
+<section id="teams">
+  <div class="container">
+    <div class="sec-label green">Sessions &amp; Collaboration</div>
+    <div class="sec-title">Sessions that Teams can Share.</div>
+    <div class="sec-desc">Pin, bookmark, archive, and share sessions across your workspace. Grant view-only or full collaboration access — all scoped by team membership and RBAC.</div>
+
+    <div class="lifecycle">
+      <div class="lc-step s1">Create Session</div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step s2">Chat with Agent</div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step s3">Share to Team</div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step s4">Pin / Bookmark</div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step s5">Archive</div>
+    </div>
+
+    <div class="card-grid cols-4">
+      <div class="fcard"><div class="fcard-icon green">🔗</div><h3>Session Sharing</h3><p>Share sessions with specific users or teams. Grant View (read-only) or Continue (can send messages) permission levels.</p></div>
+      <div class="fcard"><div class="fcard-icon green">👥</div><h3>Team Management</h3><p>Create teams with Lead and Member roles. Assign agents to teams — all members automatically get access.</p></div>
+      <div class="fcard"><div class="fcard-icon green">📌</div><h3>Pin &amp; Bookmark</h3><p>Pin sessions for quick access at the top of your list. Bookmark for long-term reference. Search and filter across all sessions.</p></div>
+      <div class="fcard"><div class="fcard-icon green">🔍</div><h3>Full-Text Search</h3><p>Search session titles, filter by agent, tab through Active, Archived, and Bookmarked — with paginated results.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADMIN & ANALYTICS ===== -->
+<section id="admin" class="sec-alt">
+  <div class="container">
+    <div class="sec-label cyan">Admin Dashboard &amp; Analytics</div>
+    <div class="sec-title">Complete Visibility.</div>
+    <div class="sec-desc">KPI dashboards, usage trend charts, popular agents, feedback analytics — everything an admin needs to understand how agents are being used across the workspace.</div>
+    <div class="card-grid cols-3">
+      <div class="fcard"><div class="fcard-icon cyan">📈</div><h3>Usage Analytics</h3><p>Sessions, messages, active users, tokens consumed, and cost — all visualized with interactive line and bar charts over configurable timeframes.</p></div>
+      <div class="fcard"><div class="fcard-icon cyan">🔥</div><h3>Agent Popularity</h3><p>See which agents are used most. Usage stats by agent, session counts, message volumes, and feedback ratings at a glance.</p></div>
+      <div class="fcard"><div class="fcard-icon cyan">⭐</div><h3>Feedback Export</h3><p>Thumbs up/down ratings with comments. Export to CSV for external analysis. Filter by agent, date range, and sentiment.</p></div>
+    </div>
+    <div class="metrics-bar">
+      <div class="metric"><div class="val">Real-Time</div><div class="lbl">Live Streaming Analytics</div></div>
+      <div class="metric"><div class="val">Per-Agent</div><div class="lbl">Usage Breakdown</div></div>
+      <div class="metric"><div class="val">CSV</div><div class="lbl">Feedback Export</div></div>
+      <div class="metric"><div class="val">Full Audit</div><div class="lbl">Activity Trail</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUTH, BRANDING, WIDGET ===== -->
+<section>
+  <div class="container">
+    <div class="sec-label rose">Auth, Branding &amp; Widget</div>
+    <div class="sec-title">Enterprise-Ready from Day One.</div>
+    <div class="sec-desc">JWT authentication, role-based access, custom branding, embeddable widget, multi-tenancy — everything you need to deploy Workspace for real teams.</div>
+    <div class="card-grid cols-4">
+      <div class="fcard"><div class="fcard-icon rose">🔐</div><h3>JWT Auth</h3><p>Access tokens (60 min), refresh tokens (30 day), automatic refresh with queue-based retry, and token blacklist on logout.</p></div>
+      <div class="fcard"><div class="fcard-icon rose">👥</div><h3>RBAC</h3><p>Admin, Member, and Viewer roles with cascading permissions. Team-based agent access. Email-based invitation system with 72h token expiry.</p></div>
+      <div class="fcard"><div class="fcard-icon rose">🎨</div><h3>Custom Branding</h3><p>Upload logos, set color schemes, inject custom CSS — all applied at runtime with OKLCH color space and automatic light/dark detection.</p></div>
+      <div class="fcard"><div class="fcard-icon rose">🔌</div><h3>Embed Widget</h3><p>Zero-dependency TypeScript bundle. Embed on any site via script tag. Domain allowlist, rate limiting, configurable greeting, and default agent.</p></div>
+    </div>
+    <div class="card-grid cols-3" style="margin-top:16px">
+      <div class="fcard"><div class="fcard-icon rose">🏢</div><h3>Multi-Tenancy</h3><p>Single or multi-workspace modes. All data scoped to workspace — users, agents, sessions, teams, and branding fully isolated.</p></div>
+      <div class="fcard"><div class="fcard-icon rose">📋</div><h3>Audit Logging</h3><p>Every action tracked: message_sent, agent_invoked, approval_requested, session_created, user_invited — with IP and context metadata.</p></div>
+      <div class="fcard"><div class="fcard-icon rose">🔔</div><h3>Notifications</h3><p>WebSocket push with polling fallback. Approval, session share, team invitation, and activity notifications with unread badges.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== UI/UX ===== -->
+<section class="sec-alt">
+  <div class="container">
+    <div class="sec-label fuchsia">Visual Identity</div>
+    <div class="sec-title">An Interface that Teams Love.</div>
+    <div class="sec-desc">Responsive design, skeleton loaders, error boundaries, offline indicators, and a full shadcn/ui component library — Workspace is built for real production use.</div>
+    <div class="card-grid cols-2">
+      <div class="fcard" style="background:linear-gradient(135deg,#0a0a12,#12061e);border-color:rgba(192,38,211,.15)">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:#C026D3;margin-bottom:12px">DEEP PORTAL</div>
+        <h3 style="font-size:20px;margin-bottom:12px;color:#eee">Dark Mode</h3>
+        <p style="color:#8b8b9e">Deep plum-black canvas with fuchsia and violet accents. Purpose-built for focused agent interactions and extended working sessions.</p>
+        <div style="display:flex;gap:8px;margin-top:16px"><div style="width:32px;height:32px;border-radius:8px;background:#0a0a12;border:1px solid #27272a"></div><div style="width:32px;height:32px;border-radius:8px;background:#C026D3"></div><div style="width:32px;height:32px;border-radius:8px;background:#86198F"></div><div style="width:32px;height:32px;border-radius:8px;background:#6366f1"></div><div style="width:32px;height:32px;border-radius:8px;background:#059669"></div></div>
+      </div>
+      <div class="fcard" style="background:linear-gradient(135deg,#f8f9fa,#ffffff);border-color:rgba(134,25,143,.12);box-shadow:0 2px 12px rgba(0,0,0,.06)">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--accent-fuchsia);margin-bottom:12px">CLEAN WORKSPACE</div>
+        <h3 style="font-size:20px;margin-bottom:12px;color:#111">Light Mode</h3>
+        <p style="color:#555">Clinical white canvas with deep fuchsia accents. Maximum readability for approval workflows, analytics dashboards, and team collaboration.</p>
+        <div style="display:flex;gap:8px;margin-top:16px"><div style="width:32px;height:32px;border-radius:8px;background:#ffffff;border:1px solid #e5e7eb"></div><div style="width:32px;height:32px;border-radius:8px;background:#86198F"></div><div style="width:32px;height:32px;border-radius:8px;background:#C026D3"></div><div style="width:32px;height:32px;border-radius:8px;background:#6366f1"></div><div style="width:32px;height:32px;border-radius:8px;background:#059669"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ECOSYSTEM ===== -->
+<section>
+  <div class="container" style="text-align:center">
+    <div class="sec-label fuchsia" style="justify-content:center">Part of the FastAIFoundry Ecosystem</div>
+    <div class="sec-title" style="margin:0 auto 16px">Workspace is Where Teams Meet Agents.</div>
+    <div class="sec-desc" style="margin:0 auto 48px;max-width:660px;text-align:center">FastAIWorkspace is the consumption layer within the broader FastAIFoundry product family. Build agents in FastAIAgent. Consume them in Workspace. Ground them in context. Govern them at scale.</div>
+    <div class="card-grid cols-4" style="max-width:1100px;margin:0 auto">
+      <div class="fcard" style="text-align:center;border-color:rgba(0,136,170,.2)">
+        <div style="margin:0 auto 16px;width:56px;height:56px">
+          <svg width="56" height="56" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" rx="28" fill="#e8f6fa"/><circle cx="62" cy="56" r="30" fill="#fff" stroke="#0088aa" stroke-width="6"/><path d="M58 38L52 54H64L55 76" stroke="#006688" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <h3 class="gradient-text-eco" style="font-size:18px">FastAIAgent</h3>
+        <p style="margin-top:8px">Build, test, deploy, and run intelligent agents with visual workflows, knowledge bases, and full lifecycle management.</p>
+        <div class="mono" style="color:var(--accent-cyan);margin-top:12px;font-size:9px">Build Agents</div>
+      </div>
+      <div class="fcard" style="text-align:center;border-color:rgba(134,25,143,.2)">
+        <div style="margin:0 auto 16px;width:56px;height:56px">
+          <svg width="56" height="56" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="120" height="120" rx="28" fill="#f5eaf8"/>
+            <rect x="12" y="12" width="42" height="42" rx="13" fill="#fff" stroke="#86198F" stroke-width="5" stroke-opacity=".55"/>
+            <rect x="66" y="12" width="42" height="42" rx="13" fill="#fff" stroke="#86198F" stroke-width="5" stroke-opacity=".55"/>
+            <rect x="12" y="66" width="42" height="42" rx="13" fill="#fff" stroke="#86198F" stroke-width="5" stroke-opacity=".55"/>
+            <rect x="66" y="66" width="42" height="42" rx="13" fill="#f3e0f6" stroke="#86198F" stroke-width="5.5"/>
+            <path d="M80 76L80 98L98 87Z" fill="#86198F" opacity=".85"/>
+            <circle cx="60" cy="60" r="5.5" fill="#86198F" opacity=".9"/>
+          </svg>
+        </div>
+        <h3 class="gradient-text" style="font-size:18px">FastAIWorkspace</h3>
+        <p style="margin-top:8px">The agent portal for business teams. Chat, approvals, session sharing, team collaboration, and analytics — all in one workspace.</p>
+        <div class="mono" style="color:var(--accent-fuchsia);margin-top:12px;font-size:9px">You are here</div>
+      </div>
+      <div class="fcard" style="text-align:center;border-color:rgba(99,102,241,.15)">
+        <div style="margin:0 auto 16px;width:56px;height:56px">
+          <svg width="56" height="56" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" rx="28" fill="#eee8f8"/><path d="M20 52L60 30L100 52L60 74Z" fill="#dcd0ee" stroke="#6b51e0" stroke-width="4" stroke-opacity="0.3"/><path d="M20 66L60 44L100 66L60 88Z" fill="#d6c8ea" stroke="#6b51e0" stroke-width="5" stroke-opacity="0.6"/><circle cx="60" cy="66" r="14" fill="#f0ecf8" stroke="#6b51e0" stroke-width="5"/><path d="M54 62L60 56L66 62L60 68Z" stroke="#4a38b0" stroke-width="4.5" fill="none"/></svg>
+        </div>
+        <h3 style="font-size:18px;color:var(--accent-violet)">FastAIContext</h3>
+        <p style="margin-top:8px">The business context layer. Knowledge graphs, entity resolution, and semantic understanding for organisation-aware agents.</p>
+        <div class="mono" style="color:var(--text-muted);margin-top:12px;font-size:9px">Coming Soon</div>
+      </div>
+      <div class="fcard" style="text-align:center;border-color:rgba(5,150,105,.15)">
+        <div style="margin:0 auto 16px;width:56px;height:56px">
+          <svg width="56" height="56" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" rx="28" fill="#e8faf4"/><path d="M60 12L96 28V60C96 82 80 96 60 104C40 96 24 82 24 60V28L60 12Z" fill="#f0fdf8" stroke="#0d9668" stroke-width="5" stroke-linejoin="round"/><path d="M42 58L54 70L78 44" stroke="#0d9668" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <h3 style="font-size:18px;color:var(--accent-green)">FastAIShield</h3>
+        <p style="margin-top:8px">AI governance and compliance. Risk assessment, audit trails, and regulatory readiness for EU AI Act and beyond.</p>
+        <div class="mono" style="color:var(--text-muted);margin-top:12px;font-size:9px">Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">Fast<span class="gradient-text">AI</span>Foundry</div>
+    <div class="footer-sub">Build intelligent agents. Give teams the workspace. Ground them in context. Govern them at scale.</div>
+    <div class="footer-links"><a href="#">Documentation</a><a href="#">GitHub</a><a href="#">API Reference</a><a href="#">Blog</a><a href="#">Contact</a></div>
+    <div class="footer-copy">© 2026 FastAIFoundry. Self-hosted. Open architecture. Your data stays yours.</div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.topbar-nav a').forEach(a=>a.addEventListener('click',()=>{
+  document.querySelector('.topbar-nav').classList.remove('open');
+}));
+</script>
+</body>
+</html>
